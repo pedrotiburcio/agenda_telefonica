@@ -1,0 +1,100 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: linear-gradient(to bottom right,  rgb(164, 249, 255), rgb(193, 248, 252));
+}
+
+.container {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 70px;
+   /* background-image: linear-gradient(to bottom right,  rgb(147, 248, 255), rgb(205, 250, 253)); */
+}
+
+header, form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:rgb(1, 1, 56);
+    padding-top:60px;
+    padding-bottom: 30px;
+}
+
+form {
+    margin-top: 20px;
+}
+
+header h1{
+    font-family: 'Sacramento', cursive;
+    font-size: 60px;
+}
+
+header img{
+    height: 70px;
+    padding-right: 20px;
+}
+
+input{
+    font-family: 'Indie Flower', cursive;
+    font-size: 26px;
+    width: 300px;
+    margin-right: 20px;
+    border: none;
+    border-bottom: 2px solid #000;
+}
+
+button {
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+#btn-add {
+    width: 60px;
+    height: 60px;
+    font-size: 40px;
+    margin-left: 30px;
+    background-color: rgba(13, 173, 98, 0.911);
+    color:white;
+}
+
+.btn-remove {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    background-color: rgba(209, 11, 11, 0.911);
+    color:white;
+}
+
+table {
+    width: 100%;
+    padding-top: 40px;
+    table-layout: fixed;
+    text-align: center;
+}
+
+table th {
+    font-family: 'Indie Flower', cursive;
+    font-size: 26px;
+    border-bottom: 2px solid #000;
+}
+
+
+tbody td {
+    font-size: 18px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+table td input {
+    height: 20px;
+}
+
+    /* TÍTULO TABELA font-family: 'Indie Flower', cursive;
+    NOMES TABELA font-family: 'Dosis', sans-serif;
+     */
