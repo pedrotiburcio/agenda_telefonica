@@ -2,8 +2,6 @@ const form = document.getElementById('form-agenda');
 const nomeContato = document.getElementById('nome-contato');
 const telefoneContato = document.getElementById('tel-contato');
 const corpoTabela = document.querySelector('tbody');
-let contatos = [];
-let telefones = [];
 let linhas = [];
 
 //Ao clicar em adicionar, inicia o processo de verificação de informações do usuário 
@@ -11,6 +9,23 @@ form.addEventListener('submit', function(e){
     e.preventDefault();
     verificaInformacoesContato();
 });
+
+// Verifica se as informações do contato são válidas e se o contato já existe
+function verificaInformacoesContato(){
+    if(verificaTamanhoNome(nomeContato.value) && verificaTamanhoTelefone(telefoneContato.value)){
+        if(!existeNomeContato() && !existeTelefoneContato()){
+            adicionaLinha(nomeContato.value, telefoneContato.value);
+        }
+        else {
+            alert('O contato e/ou número de telefone já existe(m) na agenda. Tente novamente.');
+        }
+    }
+    else{
+        alert('O nome do contato deve possuir pelo menos um sobrenome e o telefone deve possuir pelo menos 8 dígitos. Tente novamente.');
+    }
+    nomeContato.value = '';
+    telefoneContato.value = '';
+}
 
 // Verifica se o contato possui pelo menos um sobrenome (Ex: Pedro Araújo)
 function verificaTamanhoNome(nomeContato){
@@ -30,14 +45,26 @@ function verificaTamanhoTelefone(telefoneContato){
     return telefoneComoArray.length >= 8;
 }
 
-//Verifica se o nome do contato já existe
+//Verifica se o nome do contato já existe na tabela
 function existeNomeContato(){
-    return contatos.includes(nomeContato.value);
+    return String(linhas).includes('>' + nomeContato.value + '<');
 }
 
-//Verifica se o telefone do contato já existe
+//Verifica se o telefone do contato já existe na tabela
 function existeTelefoneContato(){
-    return telefones.includes(telefoneContato.value);
+    return String(linhas).includes('>' + telefoneContato.value + '<');
+}
+
+// Adiciona uma linha na tabela com as informações do contato
+function adicionaLinha(nomeContato,telefoneContato){
+    let linha = '<tr>';
+    linha += `<td>${nomeContato}</td>`;
+    linha += `<td>${telefoneContato}</td>`;
+    linha += '<td><button type="submit" class="btn-remove">-</button></td>';
+    linha += '</tr>';
+
+    linhas.push(linha);
+    atualizaTabela();
 }
 
 // Atualiza a tabela a cada inserção ou remoção de contato
@@ -60,46 +87,6 @@ function atualizaTabela(){
     corpoTabela.innerHTML = linhasTabela;
 }
 
-// Verifica se as informações do contato são válidas e se o contato já existe
-function verificaInformacoesContato(){
-    if(verificaTamanhoNome(nomeContato.value) && verificaTamanhoTelefone(telefoneContato.value)){
-        if(!existeNomeContato() && !existeTelefoneContato()){
-            criaLinha(nomeContato.value, telefoneContato.value);
-        }
-        else {
-            alert('O contato e/ou número de telefone já existe(m) na agenda. Tente novamente.');
-        }
-    }
-    else{
-        alert('O nome do contato deve possuir pelo menos um sobrenome e o telefone deve possuir pelo menos 8 dígitos. Tente novamente.');
-    }
-    nomeContato.value = '';
-    telefoneContato.value = '';
-}
-
-// Cria uma linha com as informações do contato
-function criaLinha(nomeContato,telefoneContato){
-    let linha = '<tr>';
-    linha += `<td>${nomeContato}</td>`;
-    linha += `<td>${telefoneContato}</td>`;
-    linha += '<td><button type="submit" class="btn-remove">-</button></td>';
-    linha += '</tr>';
-    adicionaLinha(linha);
-}
-
-// Adiciona o contato a lista de contatos. Caso o contato já exista na lista, emite uma mensagem de alerta.
-function adicionaLinha(linha){
-    if(!contatos.includes(nomeContato)){
-        linhas.push(linha);
-        contatos.push(nomeContato.value)
-        telefones.push(telefoneContato.value)
-    }
-    else{
-        alert('O contato já está na sua agenda telefônica.');
-    }
-    atualizaTabela();
-}
-
 //Ao clicar no botão remover, remove o usuário
 corpoTabela.addEventListener('click', function(e){
     let elementoClicado = e.target;
@@ -108,13 +95,11 @@ corpoTabela.addEventListener('click', function(e){
     removeLinha(linhaARemover);
 });
 
-// Remove a linha da tabela e remove o nome e telefone do contato das listas de nomes e telefones, respectivamente
+// Remove a linha escolhida da tabela
 function removeLinha(linha){
     for(let i = 0; i < linhas.length; i++){
         if(linhas[i] == linha){
             linhas.splice(i, 1);
-            contatos.splice(i,1);
-            telefones.splice(i,1);
             atualizaTabela();
         }
     }
